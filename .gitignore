@@ -1,3 +1,14 @@
 .DS_store
 
 node_modules
+
+minio/config/*
+!minio/config/.gitkeep
+
+minio/data/*
+!minio/data/.gitkeep
+
+mysql/data/*
+!mysql/data/.gitkeep
+
+app/.next

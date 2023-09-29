@@ -8,7 +8,7 @@ services:
     volumes: &arcturus-volumes
       - ./app:/app:cached
     ports:
-      - 4000:4000 # for web application
+      - 4567:4000 # for web application
     command: npm run dev
     depends_on:
       mysql:

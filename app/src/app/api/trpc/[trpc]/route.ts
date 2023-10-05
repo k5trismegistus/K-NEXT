@@ -2,7 +2,7 @@ import {
   FetchCreateContextFnOptions,
   fetchRequestHandler,
 } from "@trpc/server/adapters/fetch";
-import { appRouter } from "../trpc-router";
+import { appRouter } from "@/server/router";
 
 const handler = (request: Request) => {
   console.log(`incoming request ${request.url}`);

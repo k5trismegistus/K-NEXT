@@ -6,7 +6,7 @@ import React from "react";
 import { Comic } from "@/models/comic";
 
 export default function ListComics() {
-  let { data: comicsResp, isLoading, isFetching } = trpc.getComics.useQuery();
+  let { data: comicsResp, isLoading, isFetching } = trpc.indexComics.useQuery();
 
   const comics = comicsResp?.map((cr) => {
     console.log(cr);

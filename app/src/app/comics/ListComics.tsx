@@ -1,6 +1,6 @@
 "use client";
 
-import { trpc } from "@/utils/trpc";
+import { trpc } from "@/app/api/trpc/trpc-router";
 import React from "react";
 
 import { Comic } from "@/models/comic";

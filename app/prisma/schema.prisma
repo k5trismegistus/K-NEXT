@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+
+}
+
+model Comic {
+  id                Int         @id @default(autoincrement())
+  uuid              String      @unique
+  title             String      @db.VarChar(255)
+  coverThumbnailUrl String      @db.VarChar(255)
+  coverUrl          String      @db.VarChar(255)
+  createdAt         DateTime    @default(now()) @db.Timestamp(6)
+
+  comicPages         ComicPage[]
+
+  taggableId  Int @unique
+  taggable Taggable @relation(fields: [taggableId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model ComicPage {
+  id           Int    @id @default(autoincrement())
+  fileUrl      String @db.VarChar(255)
+  thumbnailUrl String @db.VarChar(255)
+
+  comicId Int
+  comic Comic @relation(fields: [comicId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Video {
+  id           Int      @id @default(autoincrement())
+  uuid         String   @unique
+  title        String   @db.VarChar(255)
+  source       String   @db.VarChar(255)
+  thumbnailUrl String   @db.VarChar(255)
+  createdAt    DateTime @default(now()) @db.Timestamp(6)
+
+  taggableId Int  @unique
+  taggable Taggable @relation(fields: [taggableId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Taggable {
+  id Int @id @default(autoincrement())
+  comic Comic?
+  video Video?
+
+  tagging Tagging[]
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+}
+
+model Tagging {
+  id        Int      @id @default(autoincrement())
+  tagId     Int
+  videoId   Int
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+
+  taggableId Int
+  taggable Taggable @relation(fields: [taggableId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([tagId, taggableId])
+  @@index([tagId, taggableId])
+}

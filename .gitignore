@@ -12,3 +12,8 @@ mysql/data/*
 !mysql/data/.gitkeep
 
 app/.next
+
+app_tmp*
+!app_tmp/.gitkeep
+
+samples/

@@ -6,18 +6,19 @@ import React, { useState, useCallback } from "react";
 
 import { useDropzone } from "react-dropzone";
 
-import styles from "./page.module.css";
-import { useMutation } from "@tanstack/react-query";
+import { Box, Card, Container } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 export default () => {
-  // debug
-  const isLoading = false;
-
-  const { mutateAsync: createComicMutateAsync } =
+  const [uploadedFilenames, setUploadedFilenames] = useState<string[]>([]); // [
+  const { isLoading: isUploading, mutateAsync: createComicMutateAsync } =
     trpc.createComic.useMutation();
 
-  const { mutateAsync: completeUploadComicMutateAsync } =
-    trpc.completeUploadComic.useMutation();
+  const {
+    isLoading: isGenerating,
+    isSuccess: isGenerated,
+    mutateAsync: completeUploadComicMutateAsync,
+  } = trpc.completeUploadComic.useMutation();
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const bookFile = acceptedFiles[0];
@@ -36,32 +37,54 @@ export default () => {
       key,
       id: comic.id,
     });
+
+    setUploadedFilenames([...uploadedFilenames, bookFile.name]);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <div className={styles.container}>
-      <h1>Upload new books</h1>
+    <main>
+      <Container style={{ padding: 12 }}>
+        <Box>
+          <Card style={{ padding: 12 }}>
+            <h2>Upload new comic</h2>
+            <div>
+              <h3>Upload new comic</h3>
+              <div
+                {...getRootProps()}
+                style={{
+                  margin: "60px auto",
+                  height: 80,
+                  width: 320,
+                  border: "4px solid gray",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: isDragActive ? "lightgray" : "white",
+                }}
+              >
+                <AddIcon style={{ fontSize: 40 }} />
+                <input {...getInputProps()}></input>
+                {isUploading || isGenerating ? (
+                  <p>Uploading...</p>
+                ) : isDragActive ? (
+                  <p>Drop file here</p>
+                ) : (
+                  <p>Start</p>
+                )}
+              </div>
+              <div>
+                <h3>Uploaded comics</h3>
 
-      <div
-        {...getRootProps()}
-        className={isLoading ? styles.hiddenDropArea : styles.dropArea}
-      >
-        <input {...getInputProps()}></input>
-        {isDragActive ? <p>Drop file here</p> : <p>Start</p>}
-      </div>
-
-      <div
-        className={
-          isLoading ? styles.waitMessageArea : styles.hiddenWaitMessageArea
-        }
-      >
-        <p>Uploading...</p>
-      </div>
-
-      <div>
-        <h2>Uploaded</h2>
-      </div>
-    </div>
+                {uploadedFilenames.map((filename, idx) => (
+                  <div key={idx}>{filename}</div>
+                ))}
+              </div>
+            </div>
+          </Card>
+        </Box>
+      </Container>
+    </main>
   );
 };

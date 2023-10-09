@@ -5,12 +5,12 @@ import { t } from "@/server/trpc";
 
 import { mkdirPromise } from "@/utils/promisified";
 import { minioClient } from "@/utils/minioClient";
-import { importComicByPath } from "@/utils/importComic";
+import { importVideoByPath } from "@/utils/importVideo";
 
-export const completeUploadComic = t.procedure
+export const completeUploadVideo = t.procedure
   .input(z.object({ id: z.number(), key: z.string() }))
   .mutation(async ({ input }) => {
-    const workDir = join("/tmp/comics", input.id.toString());
+    const workDir = join("/tmp/videos", input.id.toString());
     await mkdirPromise(workDir);
 
     const filename = input.key.split("/").pop();
@@ -23,7 +23,7 @@ export const completeUploadComic = t.procedure
       savedFilePath
     );
 
-    await importComicByPath({ savedFilePath, workDir, comicId: input.id });
+    await importVideoByPath({ savedFilePath, workDir, videoId: input.id });
 
     await minioClient.removeObject("k-next", input.key);
 

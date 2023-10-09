@@ -1,9 +1,11 @@
+import fs from "fs";
+
 import decompress from "decompress";
 import imagemagick from "imagemagick";
 
 import { join, basename, extname } from "path";
 import { minioClient } from "./minioClient";
-import { mkdirPromise } from "@/utils/mkdirPromise";
+import { mkdirPromise } from "@/utils/promisified";
 
 import { PrismaClient } from "@prisma/client";
 
@@ -80,6 +82,7 @@ export const importComicByPath = async ({
     })
   );
 
+  // Create comic pages
   pageUrls.forEach(async (pageUrl, index) => {
     await prisma.comicPage.create({
       data: {
@@ -90,4 +93,15 @@ export const importComicByPath = async ({
       },
     });
   });
+
+  // Update cover urls
+  await prisma.comic.update({
+    where: { id: comicId },
+    data: {
+      coverUrl: pageUrls[0],
+      coverThumbnailUrl: thumbnailUrls[0],
+    },
+  });
+
+  fs.rmdirSync(workDir, { recursive: true });
 };

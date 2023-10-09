@@ -7,7 +7,7 @@ import { minioClient } from "@/utils/minioClient";
 
 const prisma = new PrismaClient();
 
-export const createComic = t.procedure
+export const createVideo = t.procedure
   .input(z.object({ key: z.string() }))
   .mutation(async ({ input }) => {
     const presignedUrl = await minioClient.presignedPutObject(
@@ -18,17 +18,17 @@ export const createComic = t.procedure
 
     const filename = input.key.split("/").pop();
 
-    const comic = await prisma.comic.create({
+    const video = await prisma.video.create({
       data: {
         uuid: randomUUID(),
         title: filename!,
-        coverThumbnailUrl: "",
-        coverUrl: "",
+        source: "http://minio:9000/k-next/${fKey}",
+        thumbnailUrl: "",
         taggable: {
           create: {},
         },
       },
     });
 
-    return { presignedUrl, comic };
+    return { presignedUrl, video };
   });

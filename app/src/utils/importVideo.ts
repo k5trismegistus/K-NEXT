@@ -54,5 +54,5 @@ export const importVideoByPath = async ({
     },
   });
 
-  // fs.rmdirSync(workDir, { recursive: true });
+  fs.rmdirSync(workDir, { recursive: true });
 };

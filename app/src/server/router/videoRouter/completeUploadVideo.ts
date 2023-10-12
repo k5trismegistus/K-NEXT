@@ -25,7 +25,5 @@ export const completeUploadVideo = t.procedure
 
     await importVideoByPath({ savedFilePath, workDir, videoId: input.id });
 
-    await minioClient.removeObject("k-next", input.key);
-
     return {};
   });

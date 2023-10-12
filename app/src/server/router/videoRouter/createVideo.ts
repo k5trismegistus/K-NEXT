@@ -22,7 +22,7 @@ export const createVideo = t.procedure
       data: {
         uuid: randomUUID(),
         title: filename!,
-        source: "http://minio:9000/k-next/${fKey}",
+        source: `http://minio:9000/k-next/${input.key}`,
         thumbnailUrl: "",
         taggable: {
           create: {},

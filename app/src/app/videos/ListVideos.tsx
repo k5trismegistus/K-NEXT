@@ -3,7 +3,7 @@
 import { trpc } from "@/app/api/trpc/trpc-router";
 import React from "react";
 
-import { Container, Grid, Pagination, Typography } from "@mui/material";
+import { Container, Grid, Pagination, Typography, Link } from "@mui/material";
 import { Video } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 
@@ -42,30 +42,32 @@ export default () => {
       <Grid container spacing={2}>
         {videos?.map((video) => (
           <Grid item xs={6} sm={4} md={3} lg={2} xl={2} key={video.id}>
-            <div style={{ border: "1px solid #ccc", textAlign: "center" }}>
-              <div>
-                <img
-                  src={video.thumbnailUrl}
-                  style={{ width: "100%", aspectRatio: "16/9" }}
-                />
-              </div>
+            <Link href={`/videos/${video.id}`}>
+              <div style={{ border: "1px solid #ccc", textAlign: "center" }}>
+                <div>
+                  <img
+                    src={video.thumbnailUrl}
+                    style={{ width: "100%", aspectRatio: "16/9" }}
+                  />
+                </div>
 
-              <div>
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    display: "-webkit-box",
-                    overflow: "hidden",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 2,
-                    height: "44px",
-                  }}
-                >
-                  {video.title}
-                </Typography>
+                <div>
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                      display: "-webkit-box",
+                      overflow: "hidden",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 2,
+                      height: "44px",
+                    }}
+                  >
+                    {video.title}
+                  </Typography>
+                </div>
+                <div></div>
               </div>
-              <div></div>
-            </div>
+            </Link>
           </Grid>
         ))}
       </Grid>

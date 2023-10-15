@@ -16,6 +16,7 @@ CREATE TABLE "ComicPage" (
     "id" SERIAL NOT NULL,
     "fileUrl" VARCHAR(255) NOT NULL,
     "thumbnailUrl" VARCHAR(255) NOT NULL,
+    "index" INTEGER NOT NULL,
     "comicId" INTEGER NOT NULL,
 
     CONSTRAINT "ComicPage_pkey" PRIMARY KEY ("id")
@@ -53,9 +54,8 @@ CREATE TABLE "Tag" (
 -- CreateTable
 CREATE TABLE "Tagging" (
     "id" SERIAL NOT NULL,
-    "tagId" INTEGER NOT NULL,
-    "videoId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tagId" INTEGER NOT NULL,
     "taggableId" INTEGER NOT NULL,
 
     CONSTRAINT "Tagging_pkey" PRIMARY KEY ("id")
@@ -92,4 +92,7 @@ ALTER TABLE "ComicPage" ADD CONSTRAINT "ComicPage_comicId_fkey" FOREIGN KEY ("co
 ALTER TABLE "Video" ADD CONSTRAINT "Video_taggableId_fkey" FOREIGN KEY ("taggableId") REFERENCES "Taggable"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "Tagging" ADD CONSTRAINT "Tagging_taggableId_fkey" FOREIGN KEY ("taggableId") REFERENCES "Taggable"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "Tagging" ADD CONSTRAINT "Tagging_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "Tag"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "Tagging" ADD CONSTRAINT "Tagging_taggableId_fkey" FOREIGN KEY ("taggableId") REFERENCES "Taggable"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

@@ -8,31 +8,30 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-
 }
 
 model Comic {
-  id                Int         @id @default(autoincrement())
-  uuid              String      @unique
-  title             String      @db.VarChar(255)
-  coverThumbnailUrl String      @db.VarChar(255)
-  coverUrl          String      @db.VarChar(255)
-  createdAt         DateTime    @default(now()) @db.Timestamp(6)
+  id                Int      @id @default(autoincrement())
+  uuid              String   @unique
+  title             String   @db.VarChar(255)
+  coverThumbnailUrl String   @db.VarChar(255)
+  coverUrl          String   @db.VarChar(255)
+  createdAt         DateTime @default(now()) @db.Timestamp(6)
 
-  comicPages         ComicPage[]
+  comicPages ComicPage[]
 
-  taggableId  Int @unique
-  taggable Taggable @relation(fields: [taggableId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  taggableId Int      @unique
+  taggable   Taggable @relation(fields: [taggableId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model ComicPage {
   id           Int    @id @default(autoincrement())
   fileUrl      String @db.VarChar(255)
   thumbnailUrl String @db.VarChar(255)
-  index Int
+  index        Int
 
   comicId Int
-  comic Comic @relation(fields: [comicId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  comic   Comic @relation(fields: [comicId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model Video {
@@ -43,12 +42,12 @@ model Video {
   thumbnailUrl String   @db.VarChar(255)
   createdAt    DateTime @default(now()) @db.Timestamp(6)
 
-  taggableId Int  @unique
-  taggable Taggable @relation(fields: [taggableId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  taggableId Int      @unique
+  taggable   Taggable @relation(fields: [taggableId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model Taggable {
-  id Int @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   comic Comic?
   video Video?
 
@@ -56,23 +55,21 @@ model Taggable {
 }
 
 model Tag {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-
-  taggings Tagging[]
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  taggings  Tagging[]
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
 }
 
 model Tagging {
   id        Int      @id @default(autoincrement())
-  tagId     Int
-  videoId   Int
   createdAt DateTime @default(now()) @db.Timestamp(6)
 
-  taggableId Int
-  taggable Taggable @relation(fields: [taggableId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tagId Int
+  tag   Tag @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  tag Tag @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  taggableId Int
+  taggable   Taggable @relation(fields: [taggableId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([tagId, taggableId])
   @@index([tagId, taggableId])

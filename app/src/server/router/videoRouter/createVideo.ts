@@ -1,11 +1,10 @@
 import { randomUUID } from "crypto";
 import { z } from "zod";
 import { t } from "@/server/trpc";
-import { PrismaClient } from "@prisma/client";
 
 import { minioClient } from "@/utils/minioClient";
 
-const prisma = new PrismaClient();
+import { prisma } from "@/utils/prismaClient";
 
 export const createVideo = t.procedure
   .input(z.object({ key: z.string() }))

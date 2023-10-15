@@ -1,9 +1,9 @@
 import { t } from "@/server/trpc";
 import { z } from "zod";
 
-import { PrismaClient, Video } from "@prisma/client";
+import { Video } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import { prisma } from "@/utils/prismaClient";
 
 export const showVideo = t.procedure
   .input(z.object({ id: z.number().default(1) }))

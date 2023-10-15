@@ -2,8 +2,8 @@
 
 import { trpc } from "@/app/api/trpc/trpc-router";
 import React, { useRef } from "react";
-import { Container } from "@mui/material";
 import { useParams } from "next/navigation";
+import { Container } from "@mui/material";
 
 import {
   FastRewind,
@@ -13,6 +13,7 @@ import {
   Forward30,
   FastForward,
 } from "@mui/icons-material";
+import TagInput from "@/app/components/tagInput";
 
 export default () => {
   const params = useParams();
@@ -114,7 +115,12 @@ export default () => {
             </div>
           ) : null}
         </div>
-        <p>{video.title}</p>
+        <div className="row">
+          <p>{video.title}</p>
+        </div>
+        <div className="row">
+          <TagInput contentId={video.id} contentType="video" />
+        </div>
       </Container>
     </main>
   );

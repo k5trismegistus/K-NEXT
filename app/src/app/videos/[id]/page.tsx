@@ -4,6 +4,7 @@ import { trpc } from "@/app/api/trpc/trpc-router";
 import React, { useRef } from "react";
 import { useParams } from "next/navigation";
 import { Container } from "@mui/material";
+import { TaggingWithTags } from "@/types";
 
 import {
   FastRewind,
@@ -14,6 +15,7 @@ import {
   FastForward,
 } from "@mui/icons-material";
 import TagInput from "@/app/components/tagInput";
+import TagChip from "@/app/components/tagChip";
 
 export default () => {
   const params = useParams();
@@ -25,11 +27,20 @@ export default () => {
   const videoId: string = params.id as string;
 
   const [showingControls, setShowingControls] = React.useState<boolean>(true);
+  const [taggings, setTaggings] = React.useState<TaggingWithTags[]>([]);
+
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  let { isLoading, isFetching, data } = trpc.showVideo.useQuery({
-    id: parseInt(videoId),
-  });
+  let { isLoading, isFetching, data } = trpc.showVideo.useQuery(
+    {
+      id: parseInt(videoId),
+    },
+    {
+      onSuccess: (data) => {
+        setTaggings(data?.video?.taggable.taggings || []);
+      },
+    }
+  );
   const { video } = data || { video: null };
 
   if (isLoading || isFetching) {
@@ -117,6 +128,19 @@ export default () => {
         </div>
         <div className="row">
           <p>{video.title}</p>
+        </div>
+        <div className="row">
+          {taggings.map((tagging) => {
+            return (
+              <TagChip
+                taggingId={tagging.id}
+                label={tagging.tag.name}
+                afterDelete={() => {
+                  setTaggings(taggings.filter((t) => t.id !== tagging.id));
+                }}
+              />
+            );
+          })}
         </div>
         <div className="row">
           <TagInput contentId={video.id} contentType="video" />

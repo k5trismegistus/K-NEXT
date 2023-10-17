@@ -8,27 +8,18 @@ import { Video } from "@prisma/client";
 import { useFilterTags, usePage, useQueryTerm } from "@/hooks/queryParamsHooks";
 
 export default () => {
-  const [videos, setVideos] = React.useState<Video[]>([]);
-
   const { page, setPage } = usePage();
   const { queryTerm: query, setQueryTerm: setQuery } = useQueryTerm();
   const { tags, setFilterTags } = useFilterTags();
-  const [totalPages, setTotalPages] = React.useState(0);
 
-  let { isLoading, isFetching } = trpc.indexVideos.useQuery(
+  let { data, isLoading, isFetching } = trpc.indexVideos.useQuery(
     { page, query, tags },
     {
-      queryKey: ["indexVideos", { page, query }],
-      onSuccess: (data) => {
-        if (!data) {
-          console.log("no data");
-          return;
-        }
-        setVideos(data?.videos);
-        setTotalPages(data?.totalPages);
-      },
+      queryKey: ["indexVideos", { page, query, tags }],
     }
   );
+
+  const { videos, totalPages } = data || {};
 
   if (isLoading || isFetching) {
     return <p>Loading...</p>;
@@ -80,6 +71,7 @@ export default () => {
         <Pagination
           count={totalPages}
           color="primary"
+          page={page}
           onChange={(e, page) => setPage(page)}
         />
       </div>

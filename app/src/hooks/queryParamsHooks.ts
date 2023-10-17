@@ -9,11 +9,11 @@ export const usePage = () => {
   const searchParams = useSearchParams();
   const urlSearchParams = new URLSearchParams(searchParams?.toString());
 
-  // const [page, _setPage] = useState(0);
-
-  const page = urlSearchParams.get("page")
+  const qPage = urlSearchParams.get("page")
     ? Number(urlSearchParams.get("page"))
     : 1;
+
+  const [page, _setPage] = useState(qPage);
 
   const setPage = (newPage: number) => {
     urlSearchParams.set("page", String(newPage));
@@ -21,11 +21,9 @@ export const usePage = () => {
     const search = urlSearchParams.toString();
     const query = search ? `?${search}` : "";
     // replace since we don't want to build a history
-    // _setPage(newPage);
+    _setPage(newPage);
     router.replace(`${pathname}${query}`);
   };
-
-  // setPage(initialPage);
 
   return { page, setPage };
 };
@@ -36,17 +34,15 @@ export const useQueryTerm = () => {
   const searchParams = useSearchParams();
   const urlSearchParams = new URLSearchParams(searchParams?.toString());
 
-  // const [queryTerm, _setQueryTerm] = useState("");
-
-  // _setQueryTerm(urlSearchParams.get("q") ?? "");
-  const queryTerm = urlSearchParams.get("q") ?? "";
+  const qQueryTerm = urlSearchParams.get("q") ?? "";
+  const [queryTerm, _setQueryTerm] = useState(qQueryTerm);
 
   const setQueryTerm = (newQueryTerm: string) => {
     urlSearchParams.set("q", queryTerm);
 
     const search = urlSearchParams.toString();
     const query = search ? `?${search}` : "";
-    // _setQueryTerm(newQueryTerm);
+    _setQueryTerm(newQueryTerm);
     // replace since we don't want to build a history
     router.replace(`${pathname}${query}`);
   };
@@ -60,9 +56,11 @@ export const useFilterTags = () => {
   const searchParams = useSearchParams();
   const urlSearchParams = new URLSearchParams(searchParams?.toString());
 
-  const tags = urlSearchParams.getAll("tags[]").length
+  const qTags = urlSearchParams.getAll("tags[]").length
     ? urlSearchParams.getAll("tags[]")
     : [];
+
+  const [tags, _setFilterTags] = useState(qTags);
 
   const setFilterTags = (newTags: string[]) => {
     urlSearchParams.delete("tags");
@@ -71,6 +69,7 @@ export const useFilterTags = () => {
     const search = urlSearchParams.toString();
     const query = search ? `?${search}` : "";
     // replace since we don't want to build a history
+    _setFilterTags(newTags);
     router.replace(`${pathname}${query}`);
   };
 

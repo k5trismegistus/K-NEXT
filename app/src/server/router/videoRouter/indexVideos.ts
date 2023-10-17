@@ -37,7 +37,7 @@ export const indexVideos = t.procedure
       };
     }
 
-    if (input.tags) {
+    if (input.tags?.length) {
       const projectIds = await input.tags.reduce(
         async (accPromise: Promise<number[]> | null, tag) => {
           const acc = await accPromise;

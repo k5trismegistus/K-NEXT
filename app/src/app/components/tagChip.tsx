@@ -18,7 +18,7 @@ export default ({ label, taggingId, afterDelete }: TagChipProps) => {
     <Chip
       clickable
       component="a"
-      href={`/search?tag=${label}`}
+      href={`/search?tags[]=${label}`}
       label={label}
       onDelete={() => handleDelete({ taggingId })}
     />

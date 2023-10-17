@@ -1,4 +1,4 @@
-import ListVideos from "./ListVideos";
+import ListVideos from "../components/ListVideos";
 
 export default () => {
   return (

@@ -5,23 +5,20 @@ import React from "react";
 
 import { Container, Grid, Pagination, Typography, Link } from "@mui/material";
 import { Video } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
+import { useFilterTags, usePage, useQueryTerm } from "@/hooks/queryParamsHooks";
 
 export default () => {
-  const searchParams = useSearchParams();
-  const initialPage = parseInt(searchParams?.get("page")!) || 1;
-  const initialQuery = searchParams?.get("q") || "";
-
   const [videos, setVideos] = React.useState<Video[]>([]);
 
-  const [currentPage, setCurrentPage] = React.useState(initialPage);
-  const [query, setQuery] = React.useState<string>(initialQuery);
+  const { page, setPage } = usePage();
+  const { queryTerm: query, setQueryTerm: setQuery } = useQueryTerm();
+  const { tags, setFilterTags } = useFilterTags();
   const [totalPages, setTotalPages] = React.useState(0);
 
   let { isLoading, isFetching } = trpc.indexVideos.useQuery(
-    { page: currentPage, query: query },
+    { page, query, tags },
     {
-      queryKey: ["indexVideos", { page: currentPage, query }],
+      queryKey: ["indexVideos", { page, query }],
       onSuccess: (data) => {
         if (!data) {
           console.log("no data");
@@ -83,7 +80,7 @@ export default () => {
         <Pagination
           count={totalPages}
           color="primary"
-          onChange={(e, page) => setCurrentPage(page)}
+          onChange={(e, page) => setPage(page)}
         />
       </div>
     </Container>

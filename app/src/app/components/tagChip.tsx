@@ -14,5 +14,13 @@ export default ({ label, taggingId, afterDelete }: TagChipProps) => {
     },
   });
 
-  return <Chip label={label} onDelete={() => handleDelete({ taggingId })} />;
+  return (
+    <Chip
+      clickable
+      component="a"
+      href={`/search?tag=${label}`}
+      label={label}
+      onDelete={() => handleDelete({ taggingId })}
+    />
+  );
 };

@@ -1,5 +1,5 @@
 import { Chip } from "@mui/material";
-import { trpc } from "../api/trpc/trpc-router";
+import { trpc } from "../app/api/trpc/trpc-router";
 
 type TagChipProps = {
   label: string;

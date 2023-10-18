@@ -4,34 +4,19 @@ import { trpc } from "@/app/api/trpc/trpc-router";
 import React from "react";
 
 import { Container, Grid, Pagination } from "@mui/material";
-import { Comic } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
+import { useFilterTags, usePage, useQueryTerm } from "@/hooks/queryParamsHooks";
 
 export default () => {
-  const searchParams = useSearchParams();
-  const initialPage = parseInt(searchParams?.get("page")!) || 1;
-  const initialQuery = searchParams?.get("q") || "";
+  const { page, setPage } = usePage();
+  const { queryTerm: query, setQueryTerm: setQuery } = useQueryTerm();
+  const { tags, setFilterTags } = useFilterTags();
 
-  const [comics, setComics] = React.useState<Comic[]>([]);
+  let { data, isLoading, isFetching } = trpc.indexComics.useQuery({
+    page,
+    query: query,
+  });
 
-  const [currentPage, setCurrentPage] = React.useState(initialPage);
-  const [query, setQuery] = React.useState<string>(initialQuery);
-  const [totalPages, setTotalPages] = React.useState(0);
-
-  let { isLoading, isFetching } = trpc.indexComics.useQuery(
-    { page: currentPage, query: query },
-    {
-      queryKey: ["indexComics", { page: currentPage, query }],
-      onSuccess: (data) => {
-        if (!data) {
-          console.log("no data");
-          return;
-        }
-        setComics(data?.comics);
-        setTotalPages(data?.totalPages);
-      },
-    }
-  );
+  const { comics, totalPages } = data || {};
 
   if (isLoading || isFetching) {
     return <p>Loading...</p>;
@@ -71,7 +56,8 @@ export default () => {
         <Pagination
           count={totalPages}
           color="primary"
-          onChange={(e, page) => setCurrentPage(page)}
+          page={page}
+          onChange={(e, page) => setPage(page)}
         />
       </div>
     </Container>

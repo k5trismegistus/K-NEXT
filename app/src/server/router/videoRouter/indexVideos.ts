@@ -25,11 +25,11 @@ export const indexVideos = t.procedure
     }
 
     if (input.tags?.length) {
-      const projectIds = await input.tags.reduce(
+      const videoIds = await input.tags.reduce(
         async (accPromise: Promise<number[]> | null, tag) => {
           const acc = await accPromise;
           if (acc == null) {
-            const projectIds = await prisma.video.findMany({
+            const videoIds = await prisma.video.findMany({
               select: { id: true },
               where: {
                 taggable: {
@@ -43,11 +43,11 @@ export const indexVideos = t.procedure
                 },
               },
             });
-            return projectIds.map((project) => project.id);
+            return videoIds.map((project) => project.id);
           } else if (acc.length === 0) {
             return [];
           } else {
-            const projectIds = await prisma.video.findMany({
+            const videoIds = await prisma.video.findMany({
               select: { id: true },
               where: {
                 AND: [
@@ -66,13 +66,13 @@ export const indexVideos = t.procedure
                 ],
               },
             });
-            return projectIds.map((project) => project.id);
+            return videoIds.map((project) => project.id);
           }
         },
         null
       );
 
-      whereHash["id"] = { in: projectIds ?? [] };
+      whereHash["id"] = { in: videoIds ?? [] };
     }
 
     const videos: VideoWithTags[] = await prisma.video.findMany({

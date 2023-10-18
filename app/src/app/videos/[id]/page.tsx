@@ -14,8 +14,8 @@ import {
   Forward30,
   FastForward,
 } from "@mui/icons-material";
-import TagInput from "@/app/components/tagInput";
-import TagChip from "@/app/components/tagChip";
+import TagInput from "@/components/tagInput";
+import TagChip from "@/components/tagChip";
 
 export default () => {
   const params = useParams();

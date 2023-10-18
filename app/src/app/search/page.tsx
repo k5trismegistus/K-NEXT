@@ -2,7 +2,7 @@
 
 import { Box, Container, Tabs, Tab, Typography } from "@mui/material";
 import React from "react";
-import ListVideos from "../components/ListVideos";
+import ListVideos from "../../components/ListVideos";
 
 interface TabPanelProps {
   children?: React.ReactNode;

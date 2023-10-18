@@ -24,21 +24,32 @@ const ListVideos = ({ videos }: ListVideosProps) => {
                 />
               </div>
 
-              <div>
+              <div className="text-start">
                 <Typography
+                  className="text-start p-2 text-sm"
                   sx={{
-                    fontSize: "14px",
                     display: "-webkit-box",
                     overflow: "hidden",
                     WebkitBoxOrient: "vertical",
                     WebkitLineClamp: 2,
-                    height: "44px",
                   }}
                 >
                   {video.title}
                 </Typography>
               </div>
-              <div></div>
+              <div
+                className="border-t-2 text-start p-2"
+                style={{ height: "80px" }}
+              >
+                {video.taggable.taggings.map((tagging) => (
+                  <a
+                    href={`/search?tags[]=${tagging.tag.name}`}
+                    className="inline-block m-1 text-sm"
+                  >
+                    #{tagging.tag.name}
+                  </a>
+                ))}
+              </div>
             </div>
           </Link>
         </Grid>

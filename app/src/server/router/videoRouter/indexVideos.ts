@@ -2,6 +2,7 @@ import { t } from "@/server/trpc";
 import { z } from "zod";
 
 import { prisma } from "@/utils/prismaClient";
+import { VideoWithTags } from "@/types";
 
 const PER = 12;
 
@@ -14,27 +15,13 @@ export const indexVideos = t.procedure
     })
   )
   .query(async ({ input }) => {
-    const queryHash: { include: any; skip: number; take: number; where?: any } =
-      {
-        include: {
-          taggable: {
-            include: {
-              taggings: {
-                include: {
-                  tag: true,
-                },
-              },
-            },
-          },
-        },
-        skip: (input.page - 1) * PER,
-        take: 12,
-      };
+    const whereHash: {
+      title?: { contains: string };
+      id?: { in: number[] };
+    } = {};
 
     if (input.query) {
-      queryHash["where"] = {
-        title: { contains: input.query },
-      };
+      whereHash["title"] = { contains: input.query };
     }
 
     if (input.tags?.length) {
@@ -57,6 +44,8 @@ export const indexVideos = t.procedure
               },
             });
             return projectIds.map((project) => project.id);
+          } else if (acc.length === 0) {
+            return [];
           } else {
             const projectIds = await prisma.video.findMany({
               select: { id: true },
@@ -83,11 +72,28 @@ export const indexVideos = t.procedure
         null
       );
 
-      queryHash["where"] = { id: { in: projectIds } };
+      whereHash["id"] = { in: projectIds ?? [] };
     }
 
-    const videos = await prisma.video.findMany(queryHash);
-    const totalVideos = await prisma.video.count();
+    const videos: VideoWithTags[] = await prisma.video.findMany({
+      include: {
+        taggable: {
+          include: {
+            taggings: {
+              include: {
+                tag: true,
+              },
+            },
+          },
+        },
+      },
+      skip: (input.page - 1) * PER,
+      take: 12,
+      where: whereHash,
+    });
+    const totalVideos = await prisma.video.count({
+      where: whereHash,
+    });
 
     return { videos, totalPages: Math.ceil(totalVideos / PER) };
   });

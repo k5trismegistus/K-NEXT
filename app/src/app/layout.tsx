@@ -3,9 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import Link from "next/link";
-import App from "next/app";
+import React from "react";
+import GlobalHeader from "@/components/GlobalHeader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,26 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width;initial-scale=1" />
+      </head>
       <body className={inter.className}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              K-NEXT
-            </Typography>{" "}
-            <Link href="/comics">
-              <Button color="inherit">Read comics</Button>
-            </Link>
-            <Link href="/comics/new">
-              <Button color="inherit">Upload new comic</Button>
-            </Link>
-            <Link href="/videos">
-              <Button color="inherit">Watch videos</Button>
-            </Link>
-            <Link href="/videos/new">
-              <Button color="inherit">Upload new video</Button>
-            </Link>
-          </Toolbar>
-        </AppBar>
+        <GlobalHeader />
         <TrpcProvider>{children}</TrpcProvider>
       </body>
     </html>

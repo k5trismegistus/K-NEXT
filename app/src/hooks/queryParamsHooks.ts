@@ -63,7 +63,7 @@ export const useFilterTags = () => {
   const [tags, _setFilterTags] = useState(qTags);
 
   const setFilterTags = (newTags: string[]) => {
-    urlSearchParams.delete("tags");
+    urlSearchParams.delete("tags[]");
     newTags.forEach((tag) => urlSearchParams.append("tags[]", tag));
 
     const search = urlSearchParams.toString();

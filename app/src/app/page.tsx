@@ -1,9 +1,7 @@
-import ListUsers from "./ListUsers";
-
-export default function Home() {
+export default () => {
   return (
     <main style={{ maxWidth: 1200, marginInline: "auto", padding: 20 }}>
-      <ListUsers />
+      <h1>K-NEXT</h1>
     </main>
   );
-}
+};

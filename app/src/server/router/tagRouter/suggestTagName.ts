@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { t } from "@/server/trpc";
-import { PrismaClient, Taggable } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

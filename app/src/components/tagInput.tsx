@@ -3,10 +3,8 @@ import React from "react";
 
 import {
   Autocomplete,
-  AutocompleteRenderInputParams,
   Button,
   CircularProgress,
-  Container,
   TextField,
 } from "@mui/material";
 
@@ -33,14 +31,18 @@ export default ({ contentType, contentId }: TagInputProps) => {
   );
 
   let { isLoading: loadingTagUpdate, mutateAsync: updateTags } =
-    trpc.activateTag.useMutation();
+    trpc.activateTag.useMutation({
+      onSuccess: () => {
+        setSelectedTagNames([]);
+      },
+    });
 
   return (
-    <div className="flex">
+    <div className="flex w-full">
       <Autocomplete
+        className="flex-grow"
         multiple
         freeSolo
-        sx={{ width: 300 }}
         renderInput={(params) => (
           <TextField {...params} label="タグを追加" variant="standard" />
         )}

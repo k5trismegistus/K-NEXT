@@ -58,11 +58,13 @@ const ListVideos = ({ videos }: ListVideosProps) => {
   );
 };
 
-export default () => {
-  const { page, setPage } = usePage();
-  const { queryTerm: query, setQueryTerm: setQuery } = useQueryTerm();
-  const { tags, setFilterTags } = useFilterTags();
-
+type Props = {
+  page: number;
+  setPage: (page: number) => void;
+  query: string;
+  tags: string[];
+};
+export default ({ page, setPage, query, tags }: Props) => {
   let { data, isLoading, isFetching } = trpc.indexVideos.useQuery(
     { page, query, tags },
     {

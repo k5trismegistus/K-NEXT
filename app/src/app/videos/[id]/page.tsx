@@ -130,17 +130,16 @@ export default () => {
           <p>{video.title}</p>
         </div>
         <div className="row">
-          {taggings.map((tagging) => {
-            return (
-              <TagChip
-                taggingId={tagging.id}
-                label={tagging.tag.name}
-                afterDelete={() => {
-                  setTaggings(taggings.filter((t) => t.id !== tagging.id));
-                }}
-              />
-            );
-          })}
+          {taggings.map((tagging) => (
+            <TagChip
+              key={tagging.id}
+              taggingId={tagging.id}
+              label={tagging.tag.name}
+              afterDelete={() => {
+                setTaggings(taggings.filter((t) => t.id !== tagging.id));
+              }}
+            />
+          ))}
         </div>
         <div className="row">
           <TagInput contentId={video.id} contentType="video" />

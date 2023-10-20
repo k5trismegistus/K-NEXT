@@ -1,9 +1,10 @@
+import { indexTags } from "./indexTags";
 import { activateTag } from "./activateTag";
 import { deactivateTag } from "./deactivateTag";
 import { suggestTagName } from "./suggestTagName";
 
 export const tagRouter = {
-  // indexTags,
+  indexTags,
   activateTag,
   deactivateTag,
   suggestTagName,

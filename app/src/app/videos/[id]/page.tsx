@@ -13,9 +13,12 @@ import {
   Forward10,
   Forward30,
   FastForward,
+  PlayArrow,
+  Pause,
 } from "@mui/icons-material";
 import TagInput from "@/components/tagInput";
 import TagChip from "@/components/tagChip";
+import { t } from "@/server/trpc";
 
 export default () => {
   const params = useParams();
@@ -28,6 +31,7 @@ export default () => {
 
   const [showingControls, setShowingControls] = React.useState<boolean>(true);
   const [taggings, setTaggings] = React.useState<TaggingWithTags[]>([]);
+  const [playing, setPlaying] = React.useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -96,6 +100,25 @@ export default () => {
                 }}
                 className="text-white h-12 w-12"
               />
+              {playing ? (
+                <Pause
+                  onClick={(e) => {
+                    setPlaying(false);
+                    videoRef.current?.pause();
+                    e.stopPropagation();
+                  }}
+                  className="text-white h-12 w-12"
+                />
+              ) : (
+                <PlayArrow
+                  onClick={(e) => {
+                    setPlaying(true);
+                    videoRef.current?.play();
+                    e.stopPropagation();
+                  }}
+                  className="text-white h-12 w-12"
+                />
+              )}
               <Forward10
                 onClick={(e) => {
                   videoRef.current?.currentTime != null

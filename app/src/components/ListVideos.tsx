@@ -42,12 +42,9 @@ const ListVideos = ({ videos }: ListVideosProps) => {
                 style={{ height: "80px" }}
               >
                 {video.taggable.taggings.map((tagging) => (
-                  <a
-                    href={`/search?tags[]=${tagging.tag.name}`}
-                    className="inline-block m-1 text-sm"
-                  >
+                  <span className="inline-block m-1 text-sm">
                     #{tagging.tag.name}
-                  </a>
+                  </span>
                 ))}
               </div>
             </div>

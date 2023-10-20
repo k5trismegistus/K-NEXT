@@ -12,7 +12,7 @@ export const indexComics = t.procedure
       page: z.number().default(1),
       query: z.string().optional(),
       tags: z.array(z.string()).optional(),
-    })
+    }),
   )
   .query(async ({ input }) => {
     const whereHash: {
@@ -69,7 +69,7 @@ export const indexComics = t.procedure
             return comicIds.map((project) => project.id);
           }
         },
-        null
+        null,
       );
 
       whereHash["id"] = { in: comicIds ?? [] };

@@ -39,7 +39,7 @@ export default () => {
       onSuccess: (data) => {
         setTaggings(data?.video?.taggable.taggings || []);
       },
-    }
+    },
   );
   const { video } = data || { video: null };
 

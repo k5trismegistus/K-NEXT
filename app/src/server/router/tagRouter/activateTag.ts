@@ -35,7 +35,7 @@ export const activateTag = t.procedure
       tagNames: z.array(z.string()),
       type: z.union([z.literal("video"), z.literal("comic")]),
       id: z.number(),
-    })
+    }),
   )
   .mutation(async ({ input }) => {
     const tags = await Promise.all(
@@ -65,7 +65,7 @@ export const activateTag = t.procedure
         }
 
         return tag;
-      })
+      }),
     );
 
     return { tags };

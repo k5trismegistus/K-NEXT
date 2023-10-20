@@ -69,7 +69,7 @@ export default ({ page, setPage, query, tags }: Props) => {
     { page, query, tags },
     {
       queryKey: ["indexVideos", { page, query, tags }],
-    }
+    },
   );
 
   const { videos, totalPages } = data || {};

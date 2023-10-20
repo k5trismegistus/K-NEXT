@@ -20,7 +20,7 @@ export const completeUploadComic = t.procedure
     const resp = await minioClient.fGetObject(
       "k-next",
       input.key,
-      savedFilePath
+      savedFilePath,
     );
 
     await importComicByPath({ savedFilePath, workDir, comicId: input.id });

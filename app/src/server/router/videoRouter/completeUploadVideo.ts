@@ -20,7 +20,7 @@ export const completeUploadVideo = t.procedure
     const resp = await minioClient.fGetObject(
       "k-next",
       input.key,
-      savedFilePath
+      savedFilePath,
     );
 
     await importVideoByPath({ savedFilePath, workDir, videoId: input.id });

@@ -14,7 +14,7 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({
     () =>
       new QueryClient({
         defaultOptions: { queries: { staleTime: 5000 } },
-      })
+      }),
   );
 
   const url = "http://localhost:4567/api/trpc/";
@@ -37,7 +37,7 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({
         }),
       ],
       transformer: superjson,
-    })
+    }),
   );
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>

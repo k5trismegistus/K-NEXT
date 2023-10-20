@@ -8,8 +8,8 @@ minio/config/*
 minio/data/*
 !minio/data/.gitkeep
 
-mysql/data/*
-!mysql/data/.gitkeep
+postgres/data/*
+!postgres/data/.gitkeep
 
 app/.next
 

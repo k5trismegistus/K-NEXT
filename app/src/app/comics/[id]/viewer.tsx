@@ -38,7 +38,7 @@ export default ({ comic }: ComicViewerProps) => {
         forwardPage();
       }
     },
-    [page]
+    [page],
   );
 
   useEffect(() => {

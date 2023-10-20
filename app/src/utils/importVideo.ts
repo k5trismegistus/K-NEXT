@@ -23,7 +23,7 @@ export const importVideoByPath = async ({
   await mkdirPromise(thumbnailDir);
 
   const d: string = await execPromise(
-    `ffprobe -i "${savedFilePath}" -show_entries format=duration -print_format json  -loglevel quiet`
+    `ffprobe -i "${savedFilePath}" -show_entries format=duration -print_format json  -loglevel quiet`,
   );
   const duration = parseInt(JSON.parse(d)["format"]["duration"]);
 
@@ -31,17 +31,17 @@ export const importVideoByPath = async ({
     Array.from({ length: 10 }, (_, i) => i).map(async (i: number) => {
       await execPromise(
         `ffmpeg -ss ${Math.floor(
-          (duration * i) / 10
+          (duration * i) / 10,
         )} -t 1 -r 1 -i "${savedFilePath}" -f image2 -s 320x180 ${thumbnailDir}/img_${sprintf(
           "%02d",
-          i
-        )}.jpg`
+          i,
+        )}.jpg`,
       );
-    })
+    }),
   );
 
   await execPromise(
-    `convert -delay 60 -loop 0 ${thumbnailDir}/img_*.jpg ${thumbnailDir}/${videoId}.gif`
+    `convert -delay 60 -loop 0 ${thumbnailDir}/img_*.jpg ${thumbnailDir}/${videoId}.gif`,
   );
 
   const fKey = `video_thumbnails/${videoId}.gif`;

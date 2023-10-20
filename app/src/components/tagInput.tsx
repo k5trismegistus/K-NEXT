@@ -27,7 +27,7 @@ export default ({ contentType, contentId }: TagInputProps) => {
     {
       enabled: inputtingTagFragment.length > 2,
       staleTime: 1000,
-    }
+    },
   );
 
   let { isLoading: loadingTagUpdate, mutateAsync: updateTags } =

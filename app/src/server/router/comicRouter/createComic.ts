@@ -11,7 +11,7 @@ export const createComic = t.procedure
     const presignedUrl = await minioClient.presignedPutObject(
       "k-next",
       input.key,
-      60 * 60 * 24 * 7
+      60 * 60 * 24 * 7,
     );
 
     const filename = input.key.split("/").pop();

@@ -11,6 +11,10 @@ type ListVideosProps = {
   videos: VideoWithTags[];
 };
 const ListVideos = ({ videos }: ListVideosProps) => {
+  const buildThumbnailUrl = (key: string) => {
+    return `${process.env.NEXT_PUBLIC_MINIO_EXTERNAL_URL}/${process.env.NEXT_PUBLIC_MINIO_BUCKET}/${key}`;
+  };
+
   return (
     <Grid container spacing={2}>
       {videos?.map((video) => (
@@ -19,7 +23,7 @@ const ListVideos = ({ videos }: ListVideosProps) => {
             <div style={{ border: "1px solid #ccc", textAlign: "center" }}>
               <div>
                 <img
-                  src={video.thumbnailKey}
+                  src={buildThumbnailUrl(video.thumbnailKey)}
                   style={{ width: "100%", aspectRatio: "16/9" }}
                 />
               </div>

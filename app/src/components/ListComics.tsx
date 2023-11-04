@@ -4,13 +4,16 @@ import { trpc } from "@/app/api/trpc/trpc-router";
 import React from "react";
 
 import { Container, Grid, Link, Pagination, Typography } from "@mui/material";
-import { useFilterTags, usePage, useQueryTerm } from "@/hooks/queryParamsHooks";
 import { ComicWithTags } from "@/types";
 
 type ListComicsProps = {
   comics: ComicWithTags[];
 };
 const ListComics = ({ comics }: ListComicsProps) => {
+  const buildThumbnailUrl = (key: string) => {
+    return `${process.env.NEXT_PUBLIC_MINIO_EXTERNAL_URL}/${process.env.NEXT_PUBLIC_MINIO_BUCKET}/${key}`;
+  };
+
   return (
     <Grid container spacing={2}>
       {comics?.map((comic) => (
@@ -30,7 +33,7 @@ const ListComics = ({ comics }: ListComicsProps) => {
             <div style={{ border: "1px solid #ccc", textAlign: "center" }}>
               <div>
                 <img
-                  src={comic.coverThumbnailKey}
+                  src={buildThumbnailUrl(comic.coverThumbnailKey)}
                   style={{ width: "100%", aspectRatio: "3/4" }}
                 />
               </div>

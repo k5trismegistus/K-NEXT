@@ -50,7 +50,7 @@ export const importVideoByPath = async ({
   await prisma.video.update({
     where: { id: videoId },
     data: {
-      thumbnailKey: `/k-next/${fKey}`,
+      thumbnailKey: `${fKey}`,
     },
   });
 

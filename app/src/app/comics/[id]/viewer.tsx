@@ -52,6 +52,10 @@ export default ({ comic }: ComicViewerProps) => {
     };
   }, [keyDownHandler]);
 
+  const buildPageUrl = (key: string) => {
+    return `${process.env.NEXT_PUBLIC_MINIO_EXTERNAL_URL}/${process.env.NEXT_PUBLIC_MINIO_BUCKET}/${key}`;
+  };
+
   return (
     <div
       className="relative"
@@ -64,7 +68,9 @@ export default ({ comic }: ComicViewerProps) => {
         {...handlers}
         className="w-screen"
         style={{
-          backgroundImage: `url("${comic.comicPages[page].fileKey}")`,
+          backgroundImage: `url("${buildPageUrl(
+            comic.comicPages[page].fileKey,
+          )}")`,
           backgroundSize: "contain",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",

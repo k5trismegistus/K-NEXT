@@ -25,8 +25,14 @@ export const deleteVideo = t.procedure
     const videoFileKey = video.fileKey;
     const videoThumbnailKey = video.thumbnailKey;
 
-    minioClient.removeObject("k-next", videoFileKey);
-    minioClient.removeObject("k-next", videoFileKey);
+    await minioClient.removeObject("k-next", videoFileKey);
+    await minioClient.removeObject("k-next", videoThumbnailKey);
+
+    await prisma.video.delete({
+      where: {
+        id: input.id,
+      },
+    });
 
     return {};
   });

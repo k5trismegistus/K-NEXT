@@ -59,7 +59,7 @@ export const importComicByPath = async ({
     files.map(async (file) => {
       const fKey = `comic_pages/${comicId}/${basename(file.path)}`;
       minioClient.fPutObject("k-next", fKey, `${originalDir}/${file.path}`);
-      return `/k-next/${fKey}`;
+      return `${fKey}`;
     }),
   );
 
@@ -78,7 +78,7 @@ export const importComicByPath = async ({
     thumbnailFilePaths.map(async (file) => {
       const fKey = `comic_thumbnails/${comicId}/${basename(file)}`;
       minioClient.fPutObject("k-next", fKey, file);
-      return `/k-next/${fKey}`;
+      return `${fKey}`;
     }),
   );
 

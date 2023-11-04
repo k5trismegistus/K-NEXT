@@ -16,4 +16,6 @@ app/.next
 app_tmp*
 !app_tmp/.gitkeep
 
+app/.env*
+
 samples/

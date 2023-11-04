@@ -10,6 +10,9 @@ type ComicViewerProps = {
 };
 
 export default ({ comic, thumbnailKeys, page, setPage }: ComicViewerProps) => {
+  const buildThumbnailUrl = (key: string) => {
+    return `${process.env.NEXT_PUBLIC_MINIO_EXTERNAL_URL}/${process.env.NEXT_PUBLIC_MINIO_BUCKET}/${key}`;
+  };
   return (
     <div className="flex flex-col items-center">
       <div
@@ -54,7 +57,9 @@ export default ({ comic, thumbnailKeys, page, setPage }: ComicViewerProps) => {
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    backgroundImage: `url("${thumbnailKey}")`,
+                    backgroundImage: `url("${buildThumbnailUrl(
+                      thumbnailKey,
+                    )}")`,
                     width: "100%",
                     aspectRatio: "3/4",
                   }}

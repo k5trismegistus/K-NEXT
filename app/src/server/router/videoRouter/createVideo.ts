@@ -9,7 +9,7 @@ import { prisma } from "@/utils/prismaClient";
 export const createVideo = t.procedure
   .input(z.object({ key: z.string() }))
   .mutation(async ({ input }) => {
-    const presignedKey = await minioClient.presignedPutObject(
+    const presignedUrl = await minioClient.presignedPutObject(
       "k-next",
       input.key,
       60 * 60 * 24 * 7,
@@ -21,7 +21,7 @@ export const createVideo = t.procedure
       data: {
         uuid: randomUUID(),
         title: filename!,
-        fileKey: `/k-next/${input.key}`,
+        fileKey: `${input.key}`,
         thumbnailKey: "",
         taggable: {
           create: {},
@@ -29,5 +29,5 @@ export const createVideo = t.procedure
       },
     });
 
-    return { presignedKey, video };
+    return { presignedUrl, video };
   });

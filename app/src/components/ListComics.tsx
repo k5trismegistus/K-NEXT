@@ -30,7 +30,7 @@ const ListComics = ({ comics }: ListComicsProps) => {
             <div style={{ border: "1px solid #ccc", textAlign: "center" }}>
               <div>
                 <img
-                  src={comic.coverThumbnailUrl}
+                  src={comic.coverThumbnailKey}
                   style={{ width: "100%", aspectRatio: "3/4" }}
                 />
               </div>

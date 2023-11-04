@@ -50,7 +50,7 @@ export const importVideoByPath = async ({
   await prisma.video.update({
     where: { id: videoId },
     data: {
-      thumbnailUrl: `http://minio:9000/k-next/${fKey}`,
+      thumbnailKey: `/k-next/${fKey}`,
     },
   });
 

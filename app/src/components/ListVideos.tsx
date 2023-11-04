@@ -19,7 +19,7 @@ const ListVideos = ({ videos }: ListVideosProps) => {
             <div style={{ border: "1px solid #ccc", textAlign: "center" }}>
               <div>
                 <img
-                  src={video.thumbnailUrl}
+                  src={video.thumbnailKey}
                   style={{ width: "100%", aspectRatio: "16/9" }}
                 />
               </div>

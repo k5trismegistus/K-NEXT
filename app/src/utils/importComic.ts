@@ -55,11 +55,11 @@ export const importComicByPath = async ({
       file.path.indexOf("MACOSX") === -1,
   });
 
-  const pageUrls = await Promise.all(
+  const pageKeys = await Promise.all(
     files.map(async (file) => {
       const fKey = `comic_pages/${comicId}/${basename(file.path)}`;
       minioClient.fPutObject("k-next", fKey, `${originalDir}/${file.path}`);
-      return `http://minio:9000/k-next/${fKey}`;
+      return `/k-next/${fKey}`;
     }),
   );
 
@@ -74,21 +74,21 @@ export const importComicByPath = async ({
     }),
   );
 
-  const thumbnailUrls = await Promise.all(
+  const thumbnailKeys = await Promise.all(
     thumbnailFilePaths.map(async (file) => {
       const fKey = `comic_thumbnails/${comicId}/${basename(file)}`;
       minioClient.fPutObject("k-next", fKey, file);
-      return `http://minio:9000/k-next/${fKey}`;
+      return `/k-next/${fKey}`;
     }),
   );
 
   // Create comic pages
-  pageUrls.forEach(async (pageUrl, index) => {
+  pageKeys.forEach(async (pageKey, index) => {
     await prisma.comicPage.create({
       data: {
         comic: { connect: { id: comicId } },
-        fileUrl: pageUrl,
-        thumbnailUrl: thumbnailUrls[index],
+        fileKey: pageKey,
+        thumbnailKey: thumbnailKeys[index],
         index: index,
       },
     });
@@ -98,8 +98,8 @@ export const importComicByPath = async ({
   await prisma.comic.update({
     where: { id: comicId },
     data: {
-      coverUrl: pageUrls[0],
-      coverThumbnailUrl: thumbnailUrls[0],
+      coverKey: pageKeys[0],
+      coverThumbnailKey: thumbnailKeys[0],
     },
   });
 

@@ -4,12 +4,12 @@ import { ComicWithTags } from "@/types";
 
 type ComicViewerProps = {
   comic: ComicWithTags;
-  thumbnailUrls: string[];
+  thumbnailKeys: string[];
   page: number;
   setPage: (page: number) => void;
 };
 
-export default ({ comic, thumbnailUrls, page, setPage }: ComicViewerProps) => {
+export default ({ comic, thumbnailKeys, page, setPage }: ComicViewerProps) => {
   return (
     <div className="flex flex-col items-center">
       <div
@@ -26,7 +26,7 @@ export default ({ comic, thumbnailUrls, page, setPage }: ComicViewerProps) => {
         }}
       >
         <Grid container style={{ maxWidth: 1080 }}>
-          {thumbnailUrls?.map((thumbnailUrl, pageIdx) => (
+          {thumbnailKeys?.map((thumbnailKey, pageIdx) => (
             <Grid
               item
               xs={6}
@@ -34,7 +34,7 @@ export default ({ comic, thumbnailUrls, page, setPage }: ComicViewerProps) => {
               md={3}
               lg={2}
               xl={2}
-              key={thumbnailUrl}
+              key={thumbnailKey}
               onClick={() => setPage(pageIdx)}
               style={{
                 padding: "8px",
@@ -54,7 +54,7 @@ export default ({ comic, thumbnailUrls, page, setPage }: ComicViewerProps) => {
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    backgroundImage: `url("${thumbnailUrl}")`,
+                    backgroundImage: `url("${thumbnailKey}")`,
                     width: "100%",
                     aspectRatio: "3/4",
                   }}

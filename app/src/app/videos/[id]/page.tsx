@@ -65,7 +65,7 @@ export default () => {
               e.preventDefault();
             }}
             controls
-            src={video.source}
+            src={video.fileKey}
             ref={videoRef}
           />
           {showingControls ? (

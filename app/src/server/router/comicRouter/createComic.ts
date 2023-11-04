@@ -20,8 +20,8 @@ export const createComic = t.procedure
       data: {
         uuid: randomUUID(),
         title: filename!,
-        coverThumbnailUrl: "",
-        coverUrl: "",
+        coverThumbnailKey: "",
+        coverKey: "",
         taggable: {
           create: {},
         },

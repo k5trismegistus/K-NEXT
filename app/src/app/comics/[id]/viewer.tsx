@@ -64,7 +64,7 @@ export default ({ comic }: ComicViewerProps) => {
         {...handlers}
         className="w-screen"
         style={{
-          backgroundImage: `url("${comic.comicPages[page].fileUrl}")`,
+          backgroundImage: `url("${comic.comicPages[page].fileKey}")`,
           backgroundSize: "contain",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -85,7 +85,7 @@ export default ({ comic }: ComicViewerProps) => {
       >
         <Menu
           comic={comic}
-          thumbnailUrls={comic.comicPages.map((p) => p.thumbnailUrl)}
+          thumbnailKeys={comic.comicPages.map((p) => p.thumbnailKey)}
           page={page}
           setPage={setPage}
         />

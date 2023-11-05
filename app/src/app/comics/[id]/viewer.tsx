@@ -56,6 +56,10 @@ export default ({ comic }: ComicViewerProps) => {
     return `${process.env.NEXT_PUBLIC_MINIO_EXTERNAL_URL}/${process.env.NEXT_PUBLIC_MINIO_BUCKET}/${key}`;
   };
 
+  if (!comic.comicPages[page]) {
+    return null;
+  }
+
   return (
     <div
       className="relative"

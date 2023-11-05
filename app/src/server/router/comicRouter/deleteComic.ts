@@ -1,12 +1,14 @@
 import { t } from "@/server/trpc";
 import { z } from "zod";
 
+import { minioClient } from "@/utils/minioClient";
+
 import { prisma } from "@/utils/prismaClient";
 import { ComicWithTagsAndPages } from "@/types";
 
 export const deleteComic = t.procedure
   .input(z.object({ id: z.number() }))
-  .query(async ({ input }) => {
+  .mutation(async ({ input }) => {
     const comic: ComicWithTagsAndPages | null = await prisma.comic.findFirst({
       where: {
         id: input.id,
